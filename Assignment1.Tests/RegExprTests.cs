@@ -32,6 +32,7 @@ public class RegExprTests
 
         // Then
         Assert.Equal(streamToBe, result);
+        
     }
 
 }
