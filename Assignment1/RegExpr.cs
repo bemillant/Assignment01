@@ -18,11 +18,16 @@ public static class RegExpr
 
             if (matchWithSpace.Success)
             {
-                var tempArr = item.Split(" ");
+              /*  var tempArr = item.Split(" ");
                 foreach (var word in tempArr)
                 {
                     yield return word;
+                */
+
+                foreach (var word in item.Split(" ")){
+                    yield return word;
                 }
+
             }
             else if (matchWithoutSpace.Success)
             {
@@ -34,25 +39,23 @@ public static class RegExpr
     public static IEnumerable<(int width, int height)> Resolution(IEnumerable<string> resolutions)
     {
         //Kunne ikke lige regne den helt ud, nogle idéer til fremgangsmåde er nedenunder:
-        yield return (0, 0);
-        // {
-        //     var pattern = @"(?<first>[\d]+)x(?<second>[\d]+)*";
-        //     var reg = new Regex(pattern);
+        {
+            var pattern = @"(?<first>[\d]+)(?<eks>[x])(?<second>[\d]+)*";
+            //@"(?<first>[\d]+)x(?<second>[\d]+)*"
+            var reg = new Regex(pattern);
 
-        //     var allGroups = reg.GetGroupNames();
-
-        //     foreach (var item in resolutions)
-        //     {
-        //         var match = reg.Match(item);
-        //         foreach (var grp in allGroups)
-        //         {
-        //             var first = match.Groups["first"].Value;
-        //             var second = match.Groups["second"].Value;
-        //             Console.WriteLine(first + " " + second);
-        //             yield return (int.Parse(first), int.Parse(second));
-        //         }
-
-        //     }
+            foreach (var item in resolutions)
+            {
+                var amountOfMatches = reg.Matches(item).Count;
+                foreach (String matches in item.Split(",")){
+                var match = reg.Match(matches);
+                var first = match.Groups["first"].Value;
+                var second = match.Groups["second"].Value;
+                Console.WriteLine(first + " " + second);
+                yield return (int.Parse(first), int.Parse(second));
+                }
+                }
+            }
 
 
         //     // var patternWithoutSpace = @"(?<first>[\d]+)x(?<second>[\d]+)*";
@@ -86,5 +89,6 @@ public static class RegExpr
 
 
     }
-    public static IEnumerable<string> InnerText(string html, string tag) => throw new NotImplementedException();
-}
+    //public static IEnumerable<string> InnerText(string html, string tag) => throw new NotImplementedException();
+    
+    }
