@@ -57,4 +57,17 @@ public static class RegExpr
 
         }
     }
+
+    public static IEnumerable<(Uri url, string title)> Urls(string html)
+    {
+        var matchesCol = Regex.Matches(html, @"(?:href=[""'])(?<url>.*?)[""'].*?(?: title=[""'](?<title>.*?)[""'])?.*?>(?<innerText>.*?)<");
+
+        foreach (Match match in matchesCol)
+        {
+            yield return match.Groups["title"].Success
+            ? (new Uri(match.Groups["url"].Value), match.Groups["title"].Value)
+            : (new Uri(match.Groups["url"].Value), match.Groups["innerText"].Value);
+        }    
+    }
+
 }
