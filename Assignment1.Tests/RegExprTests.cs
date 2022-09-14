@@ -67,4 +67,17 @@ public class RegExprTests
         Assert.Equal(streamToBe, result);
     }
 
+    [Fact]
+    public void URLTest1() {
+        
+        var input = @"<div><a href=""https://www.google.com"">innerText</a></div>";
+        var input2 = @"<div><a href=""https://www.google.com"" title=""title"">innerText</a></div>";
+
+        IEnumerable<(Uri url, string title)> result1 = RegExpr.Urls(input);
+        IEnumerable<(Uri url, string title)> result2 = RegExpr.Urls(input2);
+
+        Assert.Equal(new [] { (new Uri("https://www.google.com"), "innerText")}, result1);
+        Assert.Equal(new [] { (new Uri("https://www.google.com"), "title")}, result2);
+    }
+
 }
