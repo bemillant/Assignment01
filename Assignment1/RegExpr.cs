@@ -41,20 +41,12 @@ public static class RegExpr
     public static IEnumerable<string> InnerText(string html, string tag)
     {
 
-        //Works with simple tags - not div and p and such. I think the regex needs to be changed.
-        //var matchesCol = Regex.Matches(html, @"(?<startEle><" + tag + @"(.*?)?>)(?<innerText>[\w \n]+)");
-        //var pattern = $@"(?<startEle><(?<start>[{tag}])(.*?)?)(?<innerText>[\w \n]+)(?<end><\/\k<start>>)";
          var pattern = $@"<(?<start>[{tag}]+)[^>]*>(?<innerText>.*?)(?<end><\/\k<start>>)";
          var regInput = new Regex(pattern);
         
          var replacePattern =  $@"<(/|())(?<start>[a-z]+)(?<innerText>.*?)(?<end>>)";
          var regDeletion = new Regex(replacePattern);
         
-         //var matchesCol = Regex.Matches(html, @"(?<startEle><(?<start>[{tag}])(.*?)?)(?<innerText>[\w \n]+)(?<end><\/\k<start>>)");
-        
-
-        //var pattern = @"(?<startEle><(?<start>\w+)(.*?)?)(?<innerText>[\w \n]+)(?<end><\/\k<start>>)";
-        //var reg = new Regex(pattern);
         foreach (Match match in regInput.Matches(html))
         {
             if (match.Success)
